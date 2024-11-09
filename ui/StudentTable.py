@@ -287,7 +287,7 @@ class FiltersMessageBox(MessageBoxBase):
         self.categoryBox = ChooseMeBox(self)
         self.paramBox = ComboBox(self)
 
-        categories = ['Наименование объединения', 'Уровень обучения', 'ФИО преподователя']
+        categories = ['Фамилия обучающегося', 'Имя обучающегося', 'Пол', 'Номер группы', 'Объединение']
         self.categoryBox.setPlaceholderText('Выберите категорию')
         self.categoryBox.addItems(categories)
         self.categoryBox.setCurrentIndex(0)
@@ -327,7 +327,7 @@ class FiltersMessageBox(MessageBoxBase):
     
     
     def changeCategory(self):
-        self.items = [getGroupNames(), getDifficulties(), getTeachers()][self.categoryBox.currentIndex()]
+        self.items = [getSurnames(), getNamesStudents(), SEX, getConnectedGroups(), getConnectedUnions()][self.categoryBox.currentIndex()]
         self.items = normalise(self.items)
         self.paramBox.clear()
         self.paramBox.addItems(self.items)
@@ -458,9 +458,11 @@ class StudentTable(QFrame):
         dialog = FiltersMessageBox(self)
         if dialog.exec():
             filters = 'WHERE '
-            filters = filters + {'Наименование объединения':'name',
-                                  'Уровень обучения':'level',
-                                    'ФИО преподователя':'teacher'
+            filters = filters + {'Фамилия обучающегося':'surname',
+                                    'Имя обучающегося':'name',
+                                    'Пол':'sex',
+                                    'Номер группы':'ngroup',
+                                    'Объединение':'nunion'
                                     }.get(dialog.categoryBox.currentText(), 'NEVER HAPPENS 😊')
             filters = filters + f'=\'{dialog.paramBox.currentText()}\' COLLATE NOCASE'
             self.tableWidget.draw(filters=filters)

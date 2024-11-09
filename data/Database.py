@@ -129,8 +129,7 @@ def getGroup(rowid):
     group = cur.execute(
         f'''SELECT * FROM Groups
         WHERE rowid=\'{rowid}\'''')
-    print(f'SELECT REQUEST RESULT: {list(group)}') # debugging
-    group = list(group)[0]
+    group = list(*group)
     conn.close()
     return group
 

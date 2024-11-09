@@ -86,8 +86,7 @@ class EditMessageBox(MessageBoxBase):
     def __init__(self, row, parent=None):
         super().__init__(parent)
         self.row = row
-        print(f'ROWID OF THE GROUP: {self.row}')
-        self.group = getGroup(row + 1)
+        self.group = getGroup(row)
         self.titleLabel = SubtitleLabel('Изменить группу', self)
         self.numberComboBox = ComboBox(self)
         self.nameComboBox = ComboBox(self)
@@ -299,7 +298,7 @@ class GroupTable(QFrame):
             return
         dialog = EditMessageBox(row[0] + 1, self)
         if dialog.exec():
-            editGroup(row[0], dialog.numberComboBox.text(), dialog.nameComboBox.currentText(),
+            editGroup(row[0] + 1, dialog.numberComboBox.text(), dialog.nameComboBox.currentText(),
                      dialog.difficultyComboBox.currentText(), dialog.teacherComboBox.currentText())
             self.tableWidget.draw()
 
